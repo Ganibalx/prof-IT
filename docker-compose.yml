@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+
+  grpc:
+    build: grpc_server/
+    restart: always
+    command: python ./server.py
+    ports:
+      - 50051:50051
+    network_mode: host
+  
+  fastapi:
+    build: fastAPI_server/
+    restart: always
+    command: uvicorn main:app --reload     
+    ports:
+      - 8000:8000
+    network_mode: host
+    depends_on:
+      - grpc 
+            

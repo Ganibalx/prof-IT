@@ -37,7 +37,10 @@ async def grpc_download_file(filename, client):
             file.extend(entry_response.file_data)
         with open(filepath, 'wb') as f:
             f.write(file)
-        return FileResponse(path=filepath, media_type="application/octet-stream")
+        try:
+            return FileResponse(path=filepath, media_type="application/octet-stream")
+        finally:
+            os.remove(filepath)
     else:
         return {"message": "Файл отсутствует на сервере"}
 
