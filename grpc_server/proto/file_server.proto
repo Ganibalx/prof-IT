@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+service Greeter {
+  rpc GetFileList (GetList) returns (stream Response);
+  rpc UploadFile (stream UploadFileRequest) returns (Response);
+  rpc DownloadFile (MetaData) returns (stream DownloadFileResponse);
+}
+
+message GetList{
+
+}
+
+message Response {
+  string message = 1;
+}
+
+message MetaData {
+  string filename = 1;
+}
+
+message DownloadFileResponse {
+  bytes file_data = 1;
+}
+
+message UploadFileRequest {
+  oneof request {
+    MetaData metadata = 1;
+    bytes file_data = 2;
+  }
+}
